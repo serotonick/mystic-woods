@@ -2,6 +2,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    Animator animator;
+    Collider2D slimeCollider;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        slimeCollider = GetComponent<Collider2D>();
+    }
 
     public float Health
     {
@@ -26,6 +34,11 @@ public class Enemy : MonoBehaviour
 
     public void Defeated()
     {
-        Destroy(gameObject);
+        animator.SetBool("Death", true);
+    }
+    public void Death()
+    {
+        animator.enabled = false;
+        slimeCollider.enabled = false;
     }
 }

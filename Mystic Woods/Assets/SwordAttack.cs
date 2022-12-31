@@ -15,13 +15,11 @@ public class SwordAttack : MonoBehaviour
     {
         swordCollider.enabled = true;
         transform.localPosition = rightAttackOffset;
-        print("Right");
     }
     public void AttackLeft()
     {
         swordCollider.enabled = true;
         transform.localPosition = new Vector3(rightAttackOffset.x * -1, rightAttackOffset.y);
-        print("Left");
 
     }
     public void StopAttack()
@@ -37,7 +35,6 @@ public class SwordAttack : MonoBehaviour
             if (enemy != null)
             {
                 enemy.health -= damage;
-                print(enemy.health);
             }
         }
     }
