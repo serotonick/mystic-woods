@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
     public SwordAttack swordAttack;
-    Collider2D swordCollider;
 
     Vector2 movementInput;
+    Vector2 movementDirection;
 
     SpriteRenderer spriteRenderer;
 
@@ -35,43 +35,41 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canMove)
+        if (movementInput != Vector2.zero)
         {
-            //If movement input is not 0, try to move
-            if (movementInput != Vector2.zero)
+            animator.SetFloat("moveX", movementInput.x);
+            animator.SetFloat("moveY", movementInput.y);
+        }
+        //If movement input is not 0, try to move
+        if (canMove == true && movementInput != Vector2.zero)
+        {
+            bool success = TryMove(movementInput);
+
+            if (!success)
             {
-                bool success = TryMove(movementInput);
+                success = TryMove(new Vector2(movementInput.x, 0));
 
-                if (!success)
-                {
-                    success = TryMove(new Vector2(movementInput.x, 0));
-
-                }
-                if (!success)
-                {
-                    success = TryMove(new Vector2(0, movementInput.y));
-                }
-
-
-
-                animator.SetBool("isMoving", success);
             }
-            else
+            if (!success)
             {
-                animator.SetBool("isMoving", false);
+                success = TryMove(new Vector2(0, movementInput.y));
             }
 
-            //set direction of sprite to movement direction
-            if (movementInput.x < 0)
-            {
-                spriteRenderer.flipX = true;
-            }
-            else if (movementInput.x > 0)
-            {
-                spriteRenderer.flipX = false;
-            }
+
 
         }
+
+        //set direction of sprite to movement direction
+        if (movementInput.x < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (movementInput.x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+
+        UpdateAnimation();
     }
 
     private bool TryMove(Vector2 direction)
@@ -87,6 +85,7 @@ public class PlayerController : MonoBehaviour
 
             if (count == 0)
             {
+                //If count of collisions is zero, move
                 rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
                 return true;
             }
@@ -106,10 +105,28 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
+        movementDirection = movementInput;
     }
+    //Call appropriate animation for walk and idle
+    void UpdateAnimation()
+    {
+        if (canMove)
+        {
+            if (movementInput != Vector2.zero)
+            {
+                animator.Play("Player_Moving");
+            }
+            else
+            {
+                animator.Play("Player_Idle");
+            }
+        }
+    }
+    //Call animation for sword attack
     void OnFire()
     {
-        animator.SetTrigger("swordAttack");
+        animator.Play("Player_Attack");
+        
     }
     public void LockMovement()
     {
@@ -119,15 +136,22 @@ public class PlayerController : MonoBehaviour
     public void SwordAttack()
     {
         LockMovement();
-        if (spriteRenderer.flipX == true)
+        if (movementInput.x <= -0.5)
         {
             swordAttack.AttackLeft();
 
         }
-        else
+        if (movementInput.x >= 0.5)
         {
             swordAttack.AttackRight();
-
+        }
+        if (movementInput.y >= 0.5)
+        {
+            swordAttack.AttackUp();
+        }
+        if (movementInput.y <= -0.5)
+        {
+            swordAttack.AttackDown();
         }
     }
     public void UnlockMovement()
@@ -135,5 +159,6 @@ public class PlayerController : MonoBehaviour
         canMove = true;
         swordAttack.StopAttack();
     }
+
 }
 

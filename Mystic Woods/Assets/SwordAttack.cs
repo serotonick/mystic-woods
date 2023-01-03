@@ -4,27 +4,46 @@ public class SwordAttack : MonoBehaviour
 {
     // Start is called before the first frame update
     public float damage = 3;
-    Vector2 rightAttackOffset;
-    public Collider2D swordCollider;
+    Vector2 attackOffset;
+    public Collider2D swordHitboxL;
+    public Collider2D swordHitboxR;
+    public Collider2D swordHitboxU;
+    public Collider2D swordHitboxD;
     private void Start()
     {
-        rightAttackOffset = transform.position;
-        swordCollider.enabled = false;
+        attackOffset = transform.position;
+        swordHitboxR.enabled = false;
+        swordHitboxL.enabled = false;
+        swordHitboxU.enabled = false;
+        swordHitboxD.enabled = false;
     }
     public void AttackRight()
     {
-        swordCollider.enabled = true;
-        transform.localPosition = rightAttackOffset;
+        swordHitboxR.enabled = true;
+        //transform.localPosition = attackOffset;
     }
     public void AttackLeft()
     {
-        swordCollider.enabled = true;
-        transform.localPosition = new Vector3(rightAttackOffset.x * -1, rightAttackOffset.y);
+        swordHitboxL.enabled = true;
+        //transform.localPosition = attackOffset;
 
+    }
+    public void AttackDown()
+    {
+        swordHitboxD.enabled = true;
+       // transform.localPosition = attackOffset;
+    }
+    public void AttackUp()
+    {
+        swordHitboxU.enabled = true;
+        //transform.localPosition = attackOffset;
     }
     public void StopAttack()
     {
-        swordCollider.enabled = false;
+        swordHitboxR.enabled = false;
+        swordHitboxL.enabled = false;
+        swordHitboxU.enabled = false;
+        swordHitboxD.enabled = false;
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
