@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-
+    private LayerMask obstacles;
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     private bool TryMove(Vector2 direction)
     {
         if (direction != Vector2.zero)
-        {
+        {   
             //Check for potantial collisions
             int count = rb.Cast(
                 direction,
@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
     void OnFire()
     {
         animator.Play("Player_Attack");
-        
+
     }
     public void LockMovement()
     {
@@ -136,20 +136,20 @@ public class PlayerController : MonoBehaviour
     public void SwordAttack()
     {
         LockMovement();
-        if (movementInput.x <= -0.5)
+        if (movementInput.x <= -0.01)
         {
             swordAttack.AttackLeft();
 
         }
-        if (movementInput.x >= 0.5)
+        if (movementInput.x >= 0.01)
         {
             swordAttack.AttackRight();
         }
-        if (movementInput.y >= 0.5)
+        if (movementInput.y >= 0.01)
         {
             swordAttack.AttackUp();
         }
-        if (movementInput.y <= -0.5)
+        if (movementInput.y <= -0.01)
         {
             swordAttack.AttackDown();
         }

@@ -26,12 +26,11 @@ public class SwordAttack : MonoBehaviour
     {
         swordHitboxL.enabled = true;
         //transform.localPosition = attackOffset;
-
     }
     public void AttackDown()
     {
         swordHitboxD.enabled = true;
-       // transform.localPosition = attackOffset;
+        // transform.localPosition = attackOffset;
     }
     public void AttackUp()
     {
@@ -50,11 +49,12 @@ public class SwordAttack : MonoBehaviour
         if (collision.tag == "Enemy")
         {
             //Deal damage to the enemy
-            Enemy enemy = collision.GetComponent<Enemy>();
-            if (enemy != null)
+            Stats stats = collision.GetComponent<Stats>();
+            
+            if (stats != null)  
             {
-                enemy.health -= damage;
-                           }
-                 }
+                stats.health -= damage;
+            }
+        }
     }
 }

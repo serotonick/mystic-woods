@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AiChase : MonoBehaviour
@@ -9,11 +7,11 @@ public class AiChase : MonoBehaviour
     public float FollowDistance;
     public bool canMove;
     SpriteRenderer spriteRenderer;
-    public Enemy enemy;
+    public OldEnemy enemy;
 
     private float distance;
-    
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +20,7 @@ public class AiChase : MonoBehaviour
         direction.Normalize();
         spriteRenderer = GetComponent<SpriteRenderer>();
         canMove = true;
-        
+
     }
 
     // Update is called once per frame
@@ -41,6 +39,6 @@ public class AiChase : MonoBehaviour
         {
             spriteRenderer.flipX = true;
         };
-        
+
     }
 }
