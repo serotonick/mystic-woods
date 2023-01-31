@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class EnemyGFX : MonoBehaviour
-{   
+public class ShepherdGFX : MonoBehaviour
+{
     public AIPath aiPath;
-    //private Vector3 desiredVelocity;
-    Animator animator;
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +16,7 @@ public class EnemyGFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(aiPath.desiredVelocity.x >= 0.01f)
+                if(aiPath.desiredVelocity.x >= 0.01f)
     {
             transform.localScale = new Vector3(1f, 1f, 1f);
     } else if (aiPath.desiredVelocity.x <= -0.01f)
@@ -37,5 +36,3 @@ public class EnemyGFX : MonoBehaviour
         }
     }
 }
-
-

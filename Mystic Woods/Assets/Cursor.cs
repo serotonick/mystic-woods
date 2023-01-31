@@ -11,7 +11,7 @@ public class Cursor : MonoBehaviour
         transform.position = new Vector2(cursorPosition.x,cursorPosition.y);
     }
     // OnFire is called on click
-    /*void Update()
+    /*void FixedUpdate()
     {
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector2(cursorPosition.x,cursorPosition.y);

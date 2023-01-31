@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
 
-    Animator animator;
+    public Animator animator;
 
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
@@ -37,8 +37,10 @@ public class PlayerController : MonoBehaviour
     {
         if (movementInput != Vector2.zero)
         {
-            animator.SetFloat("moveX", movementInput.x);
-            animator.SetFloat("moveY", movementInput.y);
+            /*animator.SetFloat("moveX", movementInput.x);
+            animator.SetFloat("moveY", movementInput.y);*/
+            animator.SetBool("isMoving", true);
+            
         }
         //If movement input is not 0, try to move
         if (canMove == true && movementInput != Vector2.zero)
@@ -54,10 +56,13 @@ public class PlayerController : MonoBehaviour
             {
                 success = TryMove(new Vector2(0, movementInput.y));
             }
+            
 
 
-
-        }
+        }else
+            {
+                animator.SetBool("isMoving", false);
+            }
 
         //set direction of sprite to movement direction
         if (movementInput.x < 0)
@@ -87,6 +92,7 @@ public class PlayerController : MonoBehaviour
             {
                 //If count of collisions is zero, move
                 rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                
                 return true;
             }
             else
@@ -110,20 +116,19 @@ public class PlayerController : MonoBehaviour
     //Call appropriate animation for walk and idle
     void UpdateAnimation()
     {
-        if (canMove)
-        {
-            if (movementInput != Vector2.zero)
+        
+            /*if (movementInput != Vector2.zero)
             {
-                animator.Play("Player_Moving");
+                animator.Play("movementTree");
             }
             else
             {
-                animator.Play("Player_Idle");
-            }
-        }
+                animator.Play("idleTree");
+            }*/
+        
     }
     //Call animation for sword attack
-    void OnFire()
+    /*void OnFire()
     {
         animator.Play("Player_Attack");
 
@@ -158,7 +163,7 @@ public class PlayerController : MonoBehaviour
     {
         canMove = true;
         swordAttack.StopAttack();
-    }
+    }*/
 
 }
 
