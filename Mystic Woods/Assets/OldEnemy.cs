@@ -23,18 +23,7 @@ public class OldEnemy : MonoBehaviour
         Idle();
     }
 
-    public float Health
-    {
-        set
-        {
-            health = value;
-
-        }
-        get
-        {
-            return health;
-        }
-    }
+ 
     private void FixedUpdate()
     {
         Behavior();
