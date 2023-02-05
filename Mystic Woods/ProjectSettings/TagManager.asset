@@ -8,6 +8,7 @@ TagManager:
   - Attack
   - Cat
   - Cursor
+  - Slime
   layers:
   - Default
   - TransparentFX

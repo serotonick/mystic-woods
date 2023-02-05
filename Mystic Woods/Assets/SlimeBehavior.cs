@@ -12,12 +12,14 @@ public class SlimeBehavior : MonoBehaviour
     GameObject slime;
     GameObject shepherd;
     GameObject cat;
+    GameObject fleeTarget;
     SlimeGFX slimeGFX;
     ShepherdGFX shepherdGFX;
     int idleCounter;
     float distanceToShepherd;
     float distanceToCat;
     public float followRadius;
+    public float fleeRadius;
     public bool wantsToWander;
     public bool followingShepherd;
     float directionOfCat;
@@ -26,7 +28,7 @@ public class SlimeBehavior : MonoBehaviour
     {   //Reset Variables
         followTarget = null;
         followingShepherd = false;
-        wantsToWander = false;
+        wantsToWander = true;
         //Get some Components
         ai = GetComponent<IAstarAI>();
         wanderDestinationSetter = GetComponent<WanderingDestinationSetter>();
@@ -35,31 +37,20 @@ public class SlimeBehavior : MonoBehaviour
         shepherd = GameObject.Find("Shepherd");
         slime = GameObject.Find("Slime");
         cat = GameObject.Find("Cat");
+        fleeTarget = GameObject.Find("Flee Target");
+
     }
     void Update()
     {   
-        
-        //idleCounter = slimeGFX.idleAnimationCount;
-        //Default behavior is to look for a new wander path.
         ComeToShepherd();
                 
-            if(!followingShepherd && wantsToWander == true)
+            if(!followingShepherd && wantsToWander)
             {
                 wanderDestinationSetter.PickWanderPath();
             }
             if (!ai.pathPending)
             {
-            }
-            
-        //Reset wantsToWander when the max number of idle animations reached    
-        /*if (idleCounter == 0)
-        {
-            wantsToWander = true;
-            return;
-        }*/
-                
-        //The variable followTarget is used to stor the target transform for follow behavior.
-        //
+            }         
         if(!followingShepherd)
         {
             FleeFromCat();
@@ -73,8 +64,9 @@ public class SlimeBehavior : MonoBehaviour
             //print(distanceToShepherd);
         if(distanceToShepherd < followRadius)
         {
-followDestinationSetter.target = shepherd.transform;
+            followDestinationSetter.target = shepherd.transform;
             followingShepherd = true;
+            wantsToWander = false;
         }
         
   } 
@@ -83,6 +75,11 @@ public void FleeFromCat()
         distanceToCat = Vector2.Distance(slime.transform.position, cat.transform.position);
         //print(distanceToCat);
         directionOfCat = Vector2.Angle(slime.transform.position, cat.transform.position);
+        if(distanceToCat < fleeRadius)
+        {
+            followDestinationSetter.target = fleeTarget.transform;
+            wantsToWander = false;
+        }
         
 }
 }

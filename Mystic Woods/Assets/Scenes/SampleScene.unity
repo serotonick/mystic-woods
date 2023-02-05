@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 400363680}
   m_Layer: 2
   m_Name: Slime
-  m_TagString: Enemy
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
   radius: 0.08
   height: 2
   canMove: 1
-  maxSpeed: 0.3
+  maxSpeed: 0.15
   gravity: {x: 0, y: 0, z: 0}
   groundMask:
     serializedVersion: 2
@@ -248,6 +248,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1295307292}
+  - {fileID: 763167313}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -301,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followRadius: 0
-  waitCycles: 5
+  fleeRadius: 1
   wantsToWander: 0
   followingShepherd: 0
 --- !u!114 &400363683
@@ -607,6 +608,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7de8e83678ac88c4ab55ac90c126541d, type: 3}
+--- !u!1 &763167312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 763167313}
+  - component: {fileID: 763167314}
+  m_Layer: 2
+  m_Name: Flee Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &763167313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763167312}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 400363677}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &763167314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763167312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5805eccf2ca52343996ad0767216fd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slimeGFX: {fileID: 1702010547}
+  animator: {fileID: 1702010548}
 --- !u!1 &916654409
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,6 +1659,22 @@ MonoBehaviour:
   m_MaximumFOV: 60
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 5000
+--- !u!114 &1702010547 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6052608802365028977, guid: 212beb7d678e2814186d30507877e12d, type: 3}
+  m_PrefabInstance: {fileID: 4534509098754273146}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4409448a30fad14fbd52c461065ae2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &1702010548 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7437289251280801654, guid: 212beb7d678e2814186d30507877e12d, type: 3}
+  m_PrefabInstance: {fileID: 4534509098754273146}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1788372238 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3872764033788776384, guid: 7de8e83678ac88c4ab55ac90c126541d, type: 3}
@@ -21954,7 +22017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followRadius: 0
-  waitCycles: 0
+  fleeRadius: 0
   wantsToWander: 0
   followingShepherd: 0
 --- !u!114 &1966643118
@@ -22290,8 +22353,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 400363675}
     - target: {fileID: 6052608802365028977, guid: 212beb7d678e2814186d30507877e12d, type: 3}
+      propertyPath: maxIdle
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6052608802365028977, guid: 212beb7d678e2814186d30507877e12d, type: 3}
+      propertyPath: maxJump
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6052608802365028977, guid: 212beb7d678e2814186d30507877e12d, type: 3}
       propertyPath: maxAnimationIdle
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6052608802365028977, guid: 212beb7d678e2814186d30507877e12d, type: 3}
+      propertyPath: maxAnimationJump
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6052608802365028977, guid: 212beb7d678e2814186d30507877e12d, type: 3}
       propertyPath: idleAnimationCount
@@ -22315,7 +22390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7816305663495452322, guid: 212beb7d678e2814186d30507877e12d, type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: Slime
       objectReference: {fileID: 0}
     - target: {fileID: 8242117602597988994, guid: 212beb7d678e2814186d30507877e12d, type: 3}
       propertyPath: m_Size.x

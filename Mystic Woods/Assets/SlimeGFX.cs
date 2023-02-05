@@ -7,10 +7,10 @@ public class SlimeGFX : MonoBehaviour
 {   
     AIPath aiPath;
     //private Vector3 desiredVelocity;
-    int idleAnimationCount;
-    int jumpAnimationCount;
-    public int maxAnimationJump;
-    public int maxAnimationIdle;
+    int idleCount;
+    int jumpCount;
+    public int maxJump;
+    public int maxIdle;
     Animator animator;
     SlimeBehavior slimeBehavior;
 
@@ -20,14 +20,25 @@ public class SlimeGFX : MonoBehaviour
         animator = GetComponent<Animator>();
         slimeBehavior = GetComponentInParent<SlimeBehavior>();
         aiPath = GetComponentInParent<AIPath>();
+        jumpCount = 0;
+        idleCount = 0;
+        aiPath.canMove = false;
+        animator.SetBool("isMoving", false);
     }
 
     // Update is called once per frame
     void Update()
 
-    {SpriteFlip();}
+    {
+        SpriteFlip();
+        if(!slimeBehavior.wantsToWander && slimeBehavior.followingShepherd)
+        {
+            SetBoolMoving();
+            aiPath.maxSpeed = .2f;
+            }
+    }
 
-    /*void FixedUpdate()
+    void SetBoolMoving()
     {
         if(aiPath.desiredVelocity.x != 0 || aiPath.desiredVelocity.y != 0){
             animator.SetBool("isMoving", true);
@@ -36,7 +47,7 @@ public class SlimeGFX : MonoBehaviour
         {
             animator.SetBool("isMoving", false);
         }
-    }*/
+    }
     void SpriteFlip()
     {    
         if(aiPath.desiredVelocity.x >= 0.01f)
@@ -47,36 +58,42 @@ public class SlimeGFX : MonoBehaviour
             transform.localScale = new Vector3(-1f, 1f, 1f);
         }        
     }
-    public void IdleAnimationCounter()
-    {
-        idleAnimationCount += 1;
-        if (idleAnimationCount >= maxAnimationIdle)
-        {
-            idleAnimationCount = 0;
-            slimeBehavior.wantsToWander = true;
-            aiPath.canMove = true;
-            animator.SetBool("isMoving", true);
-            return;
-        }
-        return;
-
-    }
-    public void Jiggle()
+    void Jiggle()
     {
         
-    }
-    public void JumpAnimationCounter()
-    {
-        jumpAnimationCount += 1;
-        if (jumpAnimationCount >= maxAnimationJump)
+    }    
+    public void IdleCounter()
+    {   
+        if(slimeBehavior.wantsToWander)
         {
-            jumpAnimationCount = 0;
-            slimeBehavior.wantsToWander = true;
-            aiPath.canMove = false;
-            animator.SetBool("isMoving", false);
+            idleCount += 1;
+            if (idleCount >= maxIdle)
+        {
+                aiPath.canMove = true;
+                animator.SetBool("isMoving", true);
+                idleCount = 0;
+                aiPath.maxSpeed = .15f;
+                return;
+        }
             return;
         }
-        return;
+    }
+
+    public void JumpCounter()
+    {   
+        if(slimeBehavior.wantsToWander)
+        {
+            jumpCount += 1;
+            if (jumpCount >= maxJump)
+        {
+                jumpCount = 0;
+                aiPath.canMove = false;
+                animator.SetBool("isMoving", false);
+                aiPath.maxSpeed = .15f;
+                return;
+        }
+            return;
+        }
     }
 }
 
