@@ -20,7 +20,7 @@ public class Cursor : MonoBehaviour
     void OnFire()
     {
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.localPosition = new Vector2(cursorPosition.x,cursorPosition.y);
+        transform.localPosition = new Vector2(cursorPosition.x, cursorPosition.y);
         shepherd.target = cursor;
     }
     // OnFire is called on click

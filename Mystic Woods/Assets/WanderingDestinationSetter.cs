@@ -11,24 +11,27 @@ public class WanderingDestinationSetter : MonoBehaviour
 
     IAstarAI ai;
 
-    void Start () {
+    void Start()
+    {
         ai = GetComponent<IAstarAI>();
     }
-    Vector3 PickRandomPoint () {
+    Vector3 PickRandomPoint()
+    {
         var point = Random.insideUnitSphere * wanderRadius;
-        point.y = 0;
         point += ai.position;
         return point;
     }
-    public void PickWanderPath () {
+    public void PickWanderPath()
+    {
         // Update the destination of the AI if
         // the AI is not already calculating a path and
         // the ai has reached the end of the path or it has no path at all
-        if (!ai.pathPending && (ai.reachedEndOfPath || !ai.hasPath)) {
+        if (!ai.pathPending && (ai.reachedEndOfPath || !ai.hasPath))
+        {
             ai.destination = PickRandomPoint();
             ai.SearchPath();
         }
 
-        }
+    }
 }
 
